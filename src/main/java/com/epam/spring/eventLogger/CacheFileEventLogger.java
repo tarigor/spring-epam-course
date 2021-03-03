@@ -6,42 +6,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CacheFileEventLogger extends FileEventLogger {
-    private int cacheSize;
     ArrayList<Event> cache;
+    private final int cacheSize;
 
-    public void setCacheSize(int cacheSize) {
+    public CacheFileEventLogger(String fileName, int cacheSize) {
+        super(fileName);
         this.cacheSize = cacheSize;
+        cache = new ArrayList<Event>();
     }
 
     public List<Event> getCache() {
         return cache;
     }
 
-    public CacheFileEventLogger(String fileName) {
-        super(fileName);
-        cache = new ArrayList<Event>();
-    }
-
+    @Override
     public void logEvent(Event event) {
         cache.add(event);
+        System.out.println("cache size: " + cacheSize);
         if (cache.size() == cacheSize) {
             writeEventsFromCache(cache);
             cache.clear();
             System.out.println("cache has cleaned");
         }
     }
-    public void destroy(){
-        if(!cache.isEmpty()){
-            writeEventsFromCache(cache);
-        }
-    }
 
+    public void destroy() {
+//        if (!cache.isEmpty()) {
+//            writeEventsFromCache(cache);
+//        }
+    }
 
     private void writeEventsFromCache(ArrayList<Event> cache) {
-        super.logEvent(cache);
+        cache.stream().forEach(super::logEvent);
     }
 
-    public void cacheContent(){
-        cache.forEach((e)-> System.out.println("inside the cache: "+e));
+    @Override
+    public String toString() {
+        cache.forEach((e) -> System.out.println("inside the cache: " + e));
+        return "";
+    }
+
+    public void cacheContent() {
+        cache.forEach((e) -> System.out.println("inside the cache: " + e));
     }
 }

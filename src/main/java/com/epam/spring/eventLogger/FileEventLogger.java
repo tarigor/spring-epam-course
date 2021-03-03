@@ -5,11 +5,10 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
-public class FileEventLogger {
-    private String fileName;
-    private File file;
+public class FileEventLogger implements EventLogger {
+    private final String fileName;
+    private final File file;
 
     public FileEventLogger(String fileName) {
         this.fileName = fileName;
@@ -31,14 +30,12 @@ public class FileEventLogger {
         }
     }
 
-    public void logEvent(ArrayList<Event> cache) {
-        for (Event event : cache) {
-            try {
-                FileUtils.writeStringToFile(file, "\n" + event.toString(), true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    @Override
+    public void logEvent(Event event) {
+        try {
+            FileUtils.writeStringToFile(file, "\n" + event.toString(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 }
