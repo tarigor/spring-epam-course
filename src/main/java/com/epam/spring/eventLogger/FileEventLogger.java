@@ -2,20 +2,32 @@ package com.epam.spring.eventLogger;
 
 import com.epam.spring.beans.Event;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 
+@Component
 public class FileEventLogger implements EventLogger {
-    private final String fileName;
-    private final File file;
+
+    @Value("${events.file:event.txt}")
+    private String fileName;
+
+    private File file;
+
+    public FileEventLogger(){
+    }
 
     public FileEventLogger(String fileName) {
         this.fileName = fileName;
-        file = new File(fileName);
+
     }
 
+    @PostConstruct
     public void init() {
+        file = new File(fileName);
         if (file.exists()) {
             file.delete();
         }
