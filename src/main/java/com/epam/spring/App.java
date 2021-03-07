@@ -16,6 +16,8 @@ public class App {
     private final Map<EventType, EventLogger> loggersMap;
     private final EventLogger defaultLogger;
 
+    private String startupMessage;
+
 
     public App(Client client, EventLogger eventLogger, Map<EventType, EventLogger> loggersMap) {
         super();
@@ -28,10 +30,12 @@ public class App {
     public static void main(String[] args) {
         Event event;
 
-
         ConfigurableApplicationContext context =
                 new ClassPathXmlApplicationContext("applicationContext.xml");
         App app = context.getBean("app", App.class);
+
+        System.out.println(app.startupMessage);
+        System.out.println("defaultLogger: "+ app.getDefaultLogger().getName());
 
         for (int i = 0; i < 19; i++) {
             event = context.getBean("event", Event.class);
@@ -61,4 +65,11 @@ public class App {
         defaultLogger.toString();
     }
 
+    public void setStartupMessage(String startupMessage) {
+        this.startupMessage = startupMessage;
+    }
+
+    public EventLogger getDefaultLogger() {
+        return defaultLogger;
+    }
 }
