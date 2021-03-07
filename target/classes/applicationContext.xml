@@ -19,10 +19,7 @@
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
-        <property name="systemPropertiesMode">
-            <util:constant
-                    static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
-        </property>
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
     </bean>
 
     <bean id="client" class="com.epam.spring.beans.Client"
@@ -32,15 +29,15 @@
 
     </bean>
 
+
+    <util:map id="loggerMap">
+        <entry key="INFO" value-ref="consoleEventLogger"/>
+        <entry key="ERROR" value-ref="combinedEventLogger"/>
+    </util:map>
     <bean id="app" class="com.epam.spring.App">
         <constructor-arg ref="client"/>
         <constructor-arg ref="cacheFileEventLogger"/>
-        <constructor-arg>
-            <util:map>
-                <entry key="INFO" value-ref="consoleEventLogger"/>
-                <entry key="ERROR" value-ref="combinedEventLogger"/>
-            </util:map>
-        </constructor-arg>
+        <constructor-arg ref="loggerMap"/>
 
     </bean>
 

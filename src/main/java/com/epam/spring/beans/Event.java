@@ -1,6 +1,7 @@
 package com.epam.spring.beans;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -35,6 +36,15 @@ public class Event {
     public void setMsg(String msg) {
 
         this.msg = msg;
+    }
+
+    public static Boolean isDay() {
+        System.out.println("current hour: " + Calendar.HOUR_OF_DAY);
+        if (Calendar.HOUR_OF_DAY > 8 && Calendar.HOUR_OF_DAY < 17) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

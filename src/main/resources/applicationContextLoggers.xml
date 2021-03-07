@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="consoleEventLogger" class="com.epam.spring.eventLogger.ConsoleEventLogger"/>
+    <bean id="consoleEventLogger" class="com.epam.spring.eventLogger.ConsoleEventLogger"
+          p:name="Console Logger"/>
 
     <bean id="fileEvent" class="com.epam.spring.eventLogger.FileEventLogger"
-          init-method="init">
+          init-method="init" p:name="File Logger">
         <constructor-arg value="event.txt"/>
     </bean>
 
     <bean id="cacheFileEventLogger" class="com.epam.spring.eventLogger.CacheFileEventLogger"
           destroy-method="destroy" parent="fileEvent">
         <constructor-arg index="1" value="5"/>
+        <property name="name" value="#{fileEvent.name+' with cache'}"/>
     </bean>
 
     <bean id="combinedEventLogger" class="com.epam.spring.eventLogger.CombinedEventLogger">
@@ -22,6 +25,7 @@
                 <ref bean="cacheFileEventLogger"/>
             </list>
         </constructor-arg>
+        <property name="name" value="#{'Combined ' + combinedEventLogger.loggers.![name].toString()}"/>
     </bean>
 
 </beans>

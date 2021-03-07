@@ -2,7 +2,7 @@ package com.epam.spring.eventLogger;
 
 import com.epam.spring.beans.Event;
 
-public class ConsoleEventLogger implements EventLogger {
+public class ConsoleEventLogger extends AbstractLogger {
 
     @Override
     public void logEvent(Event event) {

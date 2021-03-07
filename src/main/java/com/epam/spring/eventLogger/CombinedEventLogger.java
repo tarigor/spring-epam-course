@@ -3,8 +3,9 @@ package com.epam.spring.eventLogger;
 import com.epam.spring.beans.Event;
 
 import java.util.Collection;
+import java.util.Collections;
 
-public class CombinedEventLogger implements EventLogger {
+public class CombinedEventLogger extends AbstractLogger {
     Collection<EventLogger> loggers;
 
     public CombinedEventLogger(Collection<EventLogger> loggers) {
@@ -17,5 +18,9 @@ public class CombinedEventLogger implements EventLogger {
         for (EventLogger logger : loggers) {
             logger.logEvent(event);
         }
+    }
+
+    public Collection<EventLogger> getLoggers(){
+        return Collections.unmodifiableCollection(loggers);
     }
 }

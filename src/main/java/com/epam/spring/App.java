@@ -37,6 +37,7 @@ public class App {
             event = context.getBean("event", Event.class);
             app.logEvent(EventType.ERROR, event, "some event for 1");
         }
+
         app.getCacheContent();
         context.close();
     }
@@ -52,6 +53,8 @@ public class App {
             logger = defaultLogger;
         }
         logger.logEvent(event);
+
+        System.out.println("Logger name: " + logger.getName());
     }
 
     private void getCacheContent() {
