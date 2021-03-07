@@ -42,13 +42,8 @@
     </bean>
 
     <bean id="event" class="com.epam.spring.beans.Event" scope="prototype">
-        <constructor-arg>
-            <bean class="java.util.Date"/>
-        </constructor-arg>
-        <constructor-arg ref="dateFormat"/>
+        <constructor-arg value="#{new java.util.Date()}"/>
+        <constructor-arg value="#{T(java.text.DateFormat).getDateInstance()}"/>
     </bean>
-
-    <bean id="dateFormat" class="java.text.DateFormat"
-          factory-method="getDateTimeInstance"/>
 
 </beans>
